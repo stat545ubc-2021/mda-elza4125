@@ -1,7 +1,7 @@
 ---
 title: "Mini Data-Analysis Deliverable 1"
 author: "Elizabeth Zambrano"
-date: "06/10/2021"
+date: "08/10/2021"
 output: html_document
 ---
 # Welcome to your (maybe) first-ever data analysis project!
@@ -150,17 +150,17 @@ If we rewind and go back to the learning objectives, you'll see that by the end 
 1. Plot the distribution of a numeric variable.
 ```{r}
 dist <- ggplot(apt_buildings, aes(no_of_storeys)) + geom_histogram()
-It makes sense to plot the distribution of the number of storeys just to get an idea of how tall buildings are.
-For the questions after, it makes sense to look at the years they were built:
+#It makes sense to plot the distribution of the number of storeys just to get an idea of how tall buildings are.
+#For the questions after, it makes sense to look at the years they were built:
 yb <- ggplot(apt_buildings, aes(year_built)) + geom_histogram()
-Most of them are built after 1950
+#Most of them are built after 1950
 ```
 
 2. Create a new variable based on other variables in your data (only if it makes sense)
 ```{r}
 #creating a variable to know the number of years since it has been built, I use the mutate function, creating a variable called "years" which is made up of substracting the year it was built from 2021 (the present year)
 apt_buildings <- apt_buildings %>% mutate(years = 2021 - year_built)
-Doing this creates a value for number of years the building has, i.e. it's "age"
+#Doing this creates a value for number of years the building has, i.e. it's "age"
 ```
 
 3. Investigate how many missing values there are per variable. Can you find a way to plot this?
@@ -185,7 +185,7 @@ nrow(filt)
 
 2.2 For each of the 4 exercises that you complete, provide a *brief explanation* of why you chose that exercise in relation to your data (in other words, why does it make sense to do that?), and sufficient comments for a reader to understand your reasoning and code.
 ```{r}
-Added above! Below the lines of code
+#Added above! Below the lines of code
 ```
 
 
