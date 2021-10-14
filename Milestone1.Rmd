@@ -1,5 +1,5 @@
 ---
-title: "Mini Data-Analysis Deliverable 1"
+title: "Mini Data-Analysis Milestone 1"
 author: "Elizabeth Zambrano"
 date: "08/10/2021"
 output: html_document
