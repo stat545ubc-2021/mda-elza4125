@@ -1,7 +1,7 @@
----
-title: "README file"
-author: "Elizabeth Zambrano"
----
+
+#README file
+
+
 
 This is the Mini Data Analysis project for STAT545A
 There are 3 milestones
