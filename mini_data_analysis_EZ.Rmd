@@ -1,8 +1,8 @@
 ---
-title: "Mini Data-Analysis Deliverable 1"
+title: "Milestone 1"
 author: "Elizabeth Zambrano"
 date: "08/10/2021"
-output: html_document
+output: github_document
 ---
 # Welcome to your (maybe) first-ever data analysis project!
 
@@ -122,16 +122,16 @@ table(vancouver_trees$neighbourhood_name)
 1.3 Now that you've explored the 4 datasets that you were initially most interested in, let's narrow it down to 2. What lead you to choose these 2? Briefly explain your choices below, and feel free to include any code in your explanation. 
 
 ```{r}
-I chose vancouver_trees because think it will be fun to differentiate between the species, genus, and so on. I chose apt_buildings because, even though it lacks many numeric variables, it has a lot of variables to explore. I thought parking_meters had a lot of dollar signs that could make it harder and building_permits has few variables.
+#I chose vancouver_trees because think it will be fun to differentiate between the species, genus, and so on. I chose apt_buildings because, even though it lacks many numeric variables, it has a lot of variables to explore. I thought parking_meters had a lot of dollar signs that could make it harder and building_permits has few variables.
 ```
 
 
 1.4 Time for the final decision! Going back to the beginning, it's important to have an *end goal* in mind. For example, if I had chosen the `titanic` dataset for my project, I might've wanted to explore the relationship between survival and other variables. Try to think of 1 research question that you would want to answer with each dataset. Note them down below, and make your final choice based on what seems more interesting to you!
 
 ```{r}
-For vancouver_trees: I would like to investigate how many different species a neighborhood has
+#For vancouver_trees: I would like to investigate how many different species a neighborhood has
 
-For apt_buildings: I would like to explore year built is associated with number of stories. Maybe also look at some of the amenities (laundry room, AC, etc.)
+#For apt_buildings: I would like to explore year built is associated with number of stories. Maybe also look at some of the amenities (laundry room, AC, etc.)
 ```
 
 
@@ -195,10 +195,10 @@ So far, you have chosen a dataset and gotten familiar with it through exploring 
 
 #4 Research questions
 ```{r}
-1.Do newer buildings have more amenities?
-2. What is the average number of years to get registered after the building is built?
-3. Is there a positive relationship between non-smoking buildings and year it was built (i.e. newer buildings do not allow smoking in the building but older ones do?)
-4.Analyze the relationship between number of units and number of storeys
+#1.Do newer buildings have more amenities?
+#2. What is the average number of years to get registered after the building is built?
+#3. Is there a positive relationship between non-smoking buildings and year it was built (i.e. newer buildings do not allow smoking in the building but older ones do?)
+#4.Analyze the relationship between number of units and number of storeys
 
 ```
 
