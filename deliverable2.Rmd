@@ -1,0 +1,249 @@
+---
+title: "Mini Data Analysis Milestone 2"
+author: "Elizabeth Zambrano"
+date: "13/10/2021"
+output: github_document
+---
+
+# Welcome back to your mini data analysis project!
+
+This time, we will explore more in depth the concept of *tidy data*, and hopefully investigate further into your research questions that you defined in milestone 1.
+
+**NOTE**: The main purpose of the mini data analysis is to integrate what you learn in class in an analysis. Although each milestone provides a framework for you to conduct your analysis, it's possible that you might find the instructions too rigid for your data set. If this is the case, you may deviate from the instructions -- just make sure you're demonstrating a wide range of tools and techniques taught in this class.
+
+Begin by loading your data and the tidyverse package below: 
+#Packages used:
+```{r, message = FALSE}
+library(datateachr) 
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+# Learning Objectives
+
+By the end of this milestone, you should:
+
++ Become familiar with manipulating and summarizing your data in tibbles using `dplyr` and `tidyr`, with a research question in mind.
++ Understand what *tidy* data is, and how to create it. In milestone 3, we will explore when this might be useful.
++ Generate a reproducible and clear report using R Markdown.
++ Gain a greater understanding of how to use R to answer research questions about your data.
+
+**Things to keep in mind**
+
++ Remember to document your code, be explicit about what you are doing, and write notes in this markdown document when you feel that context is required. Create your analysis as if someone else will be reading it! **There will be 2.5 points reserved for reproducibility, readability, and repo organization.**
+
++ Before working on each task, you should always keep in mind the specific **research question** that you're trying to answer.
+
+# Task 1: Process and summarize your data (15 points)
+
+From milestone 1, you should have an idea of the basic structure of your dataset (e.g. number of rows and columns, class types, etc.). Here, we will start investigating your data more in-depth using various data manipulation functions. 
+
+### 1.1 (2.5 points) 
+
+First, write out the 4 research questions you defined in milestone 1 were. This will guide your work through milestone 2:
+1. Do newer buildings have more amenities?
+2. What is the average number of years to get registered after the building is built?
+3. Is there a positive relationship between non-smoking buildings and year it was built (i.e. newer buildings do not allow smoking in the building but older ones do?)
+4. Analyze the relationship between number of units and number of storeys
+
+Data used:
+```{r}
+head(apt_buildings)
+colnames(apt_buildings)
+```
+
+
+### 1.2 (10 points)
+
+Now, for each of your four research questions, choose one task from options 1-4 (summarizing), and one other task from 4-8 (graphing). You should have 2 tasks done for each research question (8 total). Make sure it makes sense to do them! (e.g. don't use a numerical variables for a task that needs a categorical variable.). Comment on why each task helps (or doesn't!) answer the corresponding research question. 
+
+Ensure that the output of each operation is printed! 
+
+**Summarizing:**
+
+1. Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
+2. Compute the number of observations for at least one of your categorical variables. Do not use the function `table()`!
+3. Create a categorical variable with 3 or more groups from an existing numerical variable. You can use this new variable in the other tasks! *An example: age in years into "child, teen, adult, senior".*
+4. Based on two categorical variables, calculate two summary statistics of your choosing.
+
+**Graphing:**
+
+5. Create a graph out of summarized variables that has at least two geom layers.
+6. Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read. 
+7. Make a graph where it makes sense to customize the alpha transparency.
+8. Create 3 histograms out of summarized variables, with each histogram having different sized bins. Pick the "best" one and explain why it is the best.
+
+Make sure it's clear what research question you are doing each operation for!
+
+#Research question 1
+Summarizing task 2:Compute the number of observations for at least one of your categorical variable
+```{r}
+glimpse(apt_buildings$amenities)
+```
+There are 3455 observations, this doesn't really help answer the research question. The variable needs to be recoded to tell apart the amenities
+
+Graphing task 6: create a graph with logarithmic axis (1800, 1850, 1800, 1950)
+```{r}
+apt_buildings <- apt_buildings %>% mutate(years = 2021 - year_built)
+
+plot1 <- ggplot(apt_buildings, aes(year_built, no_of_storeys)) +
+ geom_point(aes(color = years),
+            size =3,
+            alpha = .8) 
+plot1
+```
+Here we see a graph where the lighter the dot (also the ones on the left are oldest, given the x axis), the older the building. We can see that taller buildings are built later on. This helps us understand our data but doesn't answer the question, again the amenities variable needs to be tidy'd to really analyze it!
+
+#Research question 2
+Summarizing task 1: Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data
+```{r}
+sum2 <- apt_buildings %>% 
+        group_by(pets_allowed) %>%
+        summarise(reg_mean = mean(year_registered, na.rm=TRUE), reg_min = min(year_registered, na.rm=TRUE), reg_max= max(year_registered, na.rm=TRUE), reg_median = median(year_registered, na.rm=TRUE))
+
+sum2
+```
+Here I grouped them by whether having a pet is allowed, doesn't answer the research question but it's interesting- well now we know that buildings were registered between 2017 and 2020!
+
+Graph task 8 : 2 geoms
+```{r}
+plot2 <- apt_buildings %>% ggplot(aes(year_registered)) +geom_bar() + geom_hline(yintercept = mean(apt_buildings$year_registered, na.rm=TRUE), color="blue")
+plot2
+```
+added bar graphs and a line for the mean, not super useful for the research question...
+
+#Research question 3
+Summarize task 1:
+```{r}
+sum3<- apt_buildings %>% 
+        group_by(`non-smoking_building`) %>%
+        summarise(nsb_mean = mean(year_built, na.rm=TRUE), nsb_min = min(year_built, na.rm=TRUE), nsb_max= max(year_built, na.rm=TRUE), nsb_sd = sd(year_built, na.rm=TRUE))
+sum3
+```
+Now we know that the last year buildings were built was 2019, the average years between non-smoking buildings and smoking buildings doesn't really differ, with very little variability (sd)! So the positive relationship I expect from the research question might not be there
+
+Graph task 6:
+```{r}
+buildings <- apt_buildings %>% group_by(year_built) %>%
+        summarise(building = n())
+#made a new data set to have x and y values
+                    
+plot3 <- buildings %>% ggplot(aes(year_built, building)) + geom_line() + scale_x_log10("year_built") + ylab("Buildings Built")
+plot3
+```
+
+#Research question 4
+summarize task 1:
+```{r}
+sum4<- apt_buildings %>% 
+        group_by(property_type) %>%
+        summarise(nu_mean = mean(no_of_units, na.rm=TRUE), nu_min = min(no_of_units, na.rm=TRUE), nu_max= max(no_of_units, na.rm=TRUE), nu_sd = sd(no_of_units, na.rm=TRUE))
+sum4
+```
+Average number of units doesn't really differ between private and social housing! I thought they would be different...but private has waaaay more units (max)
+
+Was also curious about number of storeys:
+
+```{r}
+sum4.2 <- apt_buildings %>% 
+        group_by(property_type) %>%
+        summarise(ns_mean = mean(no_of_storeys, na.rm=TRUE), ns_min = min(no_of_storeys, na.rm=TRUE), ns_max= max(no_of_storeys, na.rm=TRUE), ns_sd = sd(no_of_storeys, na.rm=TRUE))
+sum4.2
+```
+Interesting, private has more than social housing, doesn't answer our question but we can clearly compare here!
+
+Graph task 5:
+```{r}
+buildings2 <- apt_buildings %>% group_by(property_type) %>%
+        summarise(building = n())
+#I created this to look at the numbers
+g1 <- apt_buildings %>% ggplot(aes(property_type)) + geom_bar() 
+plot4 <- g1 + geom_point(aes(y=no_of_storeys))
+plot4
+```
+I made a bar graph and added the number of storeys, but it's not really visible because the numbers are so different, would be better to have smaller numbers and to see better
+
+### 1.3 (2.5 points)
+Based on the operations that you've completed, how much closer are you to answering your research questions? Think about what aspects of your research questions remain unclear. Can your research questions be refined, now that you've investigated your data a bit more? Which research questions are yielding interesting results?
+Some tasks weren't that relevant to my research questions, but I did make some interesting observations. Because the year registered are only 2017-2020, it is not worth pursuing research question #2. For research question #1 I need to make the data tidy. Research question #3 is also not that interesting now because there aren't many differences between the buildings. Research question #4 is interesting, I think adding the property type makes it even more so.
+
+# Task 2: Tidy your data (12.5 points)
+
+In this task, we will do several exercises to reshape our data. The goal here is to understand how to do this reshaping with the `tidyr` package.
+
+A reminder of the definition of *tidy* data:
+
+- Each row is an **observation**
+- Each column is a **variable**
+- Each cell is a **value**
+
+*Tidy'ing* data is sometimes necessary because it can simplify computation. Other times it can be nice to organize data so that it can be easier to understand when read manually. 
+
+### 2.1 (2.5 points)
+
+Based on the definition above, can you identify if your data is tidy or untidy? Go through all your columns, or if you have >8 variables, just pick 8, and explain whether the data is untidy or tidy.
+
+I think the amenities column needs to change, because it is not easy to analyze the way it is. Maybe some variables could be changed to numeric in order to analyze as well (for example recoding air-conditioning; making none = 0, individual units =1, central =2, and so on).Recoding all the "no" to 0 and "yes" to 1 would also make it easier to analyze, there are many variables like this (cooling_room, emergency_power, sprinkler_system, separate_water_meters, separate_hydro_meters, and so on)
+
+### 2.2 (5 points)
+
+Now, if your data is tidy, untidy it! Then, tidy it back to it's original state.
+
+If your data is untidy, then tidy it! Then, untidy it back to it's original state.
+
+Be sure to explain your reasoning for this task. Show us the "before" and "after".
+
+```{r}
+library(splitstackshape)
+tidyd <- cSplit(apt_buildings, "amenities", ",", direction ="wide") #created a new dataset where there are columns per amenity
+
+tidyd = tidyd %>% mutate(a1 = ifelse(is.na(amenities_1), 0 ,1),
+                 a2= ifelse(is.na(amenities_2), 0, 1),
+                 a3 = ifelse(is.na(amenities_3), 0, 1),
+                 a4 = ifelse(is.na(amenities_4), 0, 1),
+                 a5 = ifelse(is.na(amenities_5), 0, 1),
+                 a6 = ifelse(is.na(amenities_6), 0, 1))
+
+tidyd$amenities = rowSums(tidyd[, c(44:49)])
+
+#Below are more random tidy functions to follow instructions of the assignment, not necessarily has to do with my research questions
+tidyd %>%  filter(window_type == "THERMAL") #if I were interested in buildings with thermal windows only
+
+tidy2 <- apt_buildings %>% pivot_wider(id_cols = c(-heating_type, -no_of_units), 
+                names_from = heating_type,
+                values_from = no_of_units) #created a new dataset to not mess up the other one
+#this would work if I was interested in the heating type per unit, though I guess it's the same in the building
+tidy2 <- rename(tidy2, hot_water= `HOT WATER`, forced_air_gas = `FORCED AIR GAS`, electric= ELECTRIC) #renamed columns, will ignore NA column
+
+
+tidy2 <- tidy2 %>% 
+  separate(parking_type, into = c("p1", "p2", "p3"), sep=",") #if I wanted to separate by parking type
+
+tidy2 <-tidy2 %>% unite(col = "parking", c(p1, p2, p3), sep = ",") #united again
+```
+
+
+### 2.3 (5 points)
+
+Now, you should be more familiar with your data, and also have made progress in answering your research questions. Based on your interest, and your analyses, pick 2 of the 4 research questions to continue your analysis in milestone 3, and explain your decision. 
+
+Try to choose a version of your data that you think will be appropriate to answer these 2 questions in milestone 3. Use between 4 and 8 functions that we've covered so far (i.e. by filtering, cleaning, tidy'ing, dropping irrelvant columns, etc.). 
+
+```{r}
+finald <- select(tidyd, -property_type) #select new columns for the dataset except for one we don't need
+finald <- finald[,-c(16:25)] #delete irrelevant columns
+finald <- select(finald, c("id", "year_built", "no_of_storeys", "no_of_units", "years", "amenities"))
+finald <- select(finald, years, everything()) #put year before everything in your dataset (to see it first)
+head(finald)
+```
+
+I think the most interesting questions to continue exploring are questions 1 and 4, given that buldings got registered in a span of 3 years and that the average year built between non-smoking and smoking buildings doesn't differ. Exploring the amenities as well as the relationship between number of units and number of storeys seems interesting because of the variability there.
+
+
+*When you are done, knit an `md` file. This is what we will mark! Make sure to open it and check that everything has knitted correctly before submitting your tagged release.*
+
+### Attribution
+
+Thanks to Victor Yuan for mostly putting this together. 
