@@ -3,8 +3,8 @@
 ## Elizabeth Zambrano
 
 
-This is the Mini Data Analysis project for STAT545A
-There are 3 milestones
+This is the Mini Data Analysis project for STAT545A, it helped me become more familiar with R functions and Github.
+There are 3 milestones, more descriptions below.
 
 ## Milestone 1:
 Due Saturday, October 9, 2021 at 22:00 PT
