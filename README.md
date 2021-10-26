@@ -4,7 +4,7 @@
 
 
 This is the Mini Data Analysis project for STAT545A, it helped me become more familiar with R functions and Github.
-There are 3 milestones, more descriptions below.
+There are 3 milestones, more descriptions below. I still need to figure out how to make my files look neater... 
 
 ## Milestone 1:
 Due Saturday, October 9, 2021 at 22:00 PT
