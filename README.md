@@ -9,7 +9,7 @@ There are 3 milestones, more descriptions below.
 ## Milestone 1:
 Due Saturday, October 9, 2021 at 22:00 PT
 Here we looked at the data and selected 4 datasets, then narrowed it down to 2 and then created 4 research questions.
-I picked the apartment buildings dataset because thought it was the most interesting one, though I was also interested in the trees one.
+I picked the apartment buildings dataset because thought it was the most interesting one, though I was also interested in the trees one. I don't have the folder because I messed it up...
 
 ## Milestone 2:
 Due Tuesday, October 19, 2021 at 22:00 PT.
